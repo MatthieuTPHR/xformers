@@ -199,7 +199,7 @@ class MemoryEfficientAttentionGenericForwardOp(AttentionOpBase):
     @classmethod
     def forward(cls, ctx, query, key, value, attn_bias, p):
         causal = isinstance(attn_bias, LowerTriangularMask)
-        out, lse, rng_seed, rng_offset = cls.FORWARD_OPERATOR(
+        out, lse = cls.FORWARD_OPERATOR(
             query=query,
             key=key,
             value=value,
@@ -210,8 +210,6 @@ class MemoryEfficientAttentionGenericForwardOp(AttentionOpBase):
         )
         ctx.save_for_backward(query, key, value, lse, out)
         ctx.p = p
-        ctx.rng_seed = rng_seed
-        ctx.rng_offset = rng_offset
         ctx.causal = causal
         return out
 

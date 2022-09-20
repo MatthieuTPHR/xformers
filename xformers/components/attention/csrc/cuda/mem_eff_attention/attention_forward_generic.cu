@@ -1,7 +1,7 @@
 #include "kernel_forward.h"
 
 namespace {
-std::tuple<at::Tensor, at::Tensor, int64_t, int64_t>
+std::tuple<at::Tensor, at::Tensor>
 efficient_attention_forward_generic(
     const at::Tensor& query,
     const at::Tensor& key,
@@ -194,7 +194,7 @@ efficient_attention_forward_generic(
       }));
 
   AT_CUDA_CHECK(cudaGetLastError());
-  return std::make_tuple(res, logsumexp, int64_t(), int64_t());
+  return std::make_tuple(res, logsumexp);
 }
 } // namespace
 
